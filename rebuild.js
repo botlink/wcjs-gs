@@ -2,7 +2,7 @@ function build() {
     var cmakeJS = require("cmake-js");
 
     var defaultRuntime = "electron";
-    var defaultRuntimeVersion = "2.0.0";
+    var defaultRuntimeVersion = "11.0.0";
 
     var options = {
         runtime: process.env.npm_config_wcjs_runtime || undefined,

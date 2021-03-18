@@ -2,7 +2,8 @@ cmake_minimum_required( VERSION 2.8 )
 
 project(wcjs-gs)
 
-add_definitions(-std=c++14)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GSTREAMER REQUIRED gstreamer-1.0)
@@ -19,7 +20,7 @@ file(GLOB SOURCE_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     package.json
     )
 
-add_library( ${PROJECT_NAME} SHARED ${SOURCE_FILES} )
+add_library( ${PROJECT_NAME} SHARED ${SOURCE_FILES} ${CMAKE_JS_SRC} )
 set_target_properties( ${PROJECT_NAME} PROPERTIES PREFIX "" SUFFIX ".node")
 target_include_directories(${PROJECT_NAME} PUBLIC ${GSTREAMER_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_JS_INC}")
@@ -33,6 +34,7 @@ else()
 	message(FATAL_ERROR "Can't locate node_modules")
 endif()
 target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
+target_link_directories(${PROJECT_NAME} PUBLIC ${GSTREAMER_LIBRARY_DIRS})
 target_link_libraries(${PROJECT_NAME}
 	${GSTREAMER_LIBRARIES}
 	${GSTREAMER_APP_LIBRARIES}
