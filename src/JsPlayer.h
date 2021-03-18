@@ -47,6 +47,8 @@ private:
 
 	void setResolution(int width, int height);
 
+	int getUdpPort();
+
 private:
 	static GstBusSyncReply onBusMessageProxy(GstBus*, GstMessage*, gpointer userData);
 	static void onEosProxy(GstAppSink* appSink, gpointer userData);

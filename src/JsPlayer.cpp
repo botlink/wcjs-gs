@@ -79,6 +79,7 @@ Napi::Object JsPlayer::InitJsApi(Napi::Env env, Napi::Object exports)
 			CLASS_METHOD("setState", &JsPlayer::setState),
 			CLASS_METHOD("sendEos", &JsPlayer::sendEos),
 			CLASS_METHOD("setResolution", &JsPlayer::setResolution),
+			CLASS_METHOD("getUdpPort", &JsPlayer::getUdpPort),
 		}
 	);
 
@@ -618,4 +619,22 @@ void JsPlayer::setResolution(int width, int height)
 		gst_caps_unref(caps);
 		gst_object_unref(filter);
 	}
+}
+
+int JsPlayer::getUdpPort()
+{
+	int port = 0;
+	if(_pipeline) {
+		GstElement* udpsrc = gst_bin_get_by_name(GST_BIN(_pipeline),
+							 "udpsrc");
+		if (!udpsrc) {
+			Napi::Error::New(Env(), "Failed to get udpsrc port. "
+					 "No udpsrc element.")
+				.ThrowAsJavaScriptException();
+		}
+		g_object_get(G_OBJECT(udpsrc), "port", &port, nullptr);
+		gst_object_unref(udpsrc);
+	}
+
+	return port;
 }
