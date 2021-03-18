@@ -78,6 +78,7 @@ Napi::Object JsPlayer::InitJsApi(Napi::Env env, Napi::Object exports)
 			CLASS_METHOD("addAppSinkCallback", &JsPlayer::addAppSinkCallback),
 			CLASS_METHOD("setState", &JsPlayer::setState),
 			CLASS_METHOD("sendEos", &JsPlayer::sendEos),
+			CLASS_METHOD("setResolution", &JsPlayer::setResolution),
 		}
 	);
 
@@ -585,4 +586,36 @@ void JsPlayer::sendEos()
 {
 	if(_pipeline)
 		gst_element_send_event(_pipeline, gst_event_new_eos());
+}
+
+void JsPlayer::setResolution(int width, int height)
+{
+	if(_pipeline) {
+		GstElement* filter = gst_bin_get_by_name(GST_BIN(_pipeline),
+							 "scalefilter");
+		if(!filter) {
+			Napi::Error::New(Env(), "Failed to set resolution. "
+					 "No capsfilter element.")
+				.ThrowAsJavaScriptException();
+		}
+
+		// pixel-aspect-ratio is needed to get scaling to work
+		// with aspect ratio preserved.
+		GstCaps* caps = gst_caps_new_simple("video/x-raw",
+						    "width", G_TYPE_INT, width,
+						    "height", G_TYPE_INT, height,
+						    "pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
+						    nullptr);
+
+		if(!caps) {
+			gst_object_unref(filter);
+			Napi::Error::New(Env(), "Failed to set resolution. "
+					 "Could not create new caps.")
+				.ThrowAsJavaScriptException();
+		}
+
+		g_object_set(G_OBJECT(filter), "caps", caps, nullptr);
+		gst_caps_unref(caps);
+		gst_object_unref(filter);
+	}
 }

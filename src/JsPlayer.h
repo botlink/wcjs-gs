@@ -45,6 +45,8 @@ private:
 
 	void sendEos();
 
+	void setResolution(int width, int height);
+
 private:
 	static GstBusSyncReply onBusMessageProxy(GstBus*, GstMessage*, gpointer userData);
 	static void onEosProxy(GstAppSink* appSink, gpointer userData);
