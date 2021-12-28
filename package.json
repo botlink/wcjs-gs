@@ -1,8 +1,9 @@
 {
   "name": "wcjs-gs",
-  "description": "WebChimera.js GStreamer edition",
+  "description": "WebChimera.js GStreamer edition, Botlink fork",
   "version": "0.3.10",
   "license": "LGPL-2.1",
+  "main": "index.js",
   "author": "Sergey Radionov <rsatom@gmail.com>",
   "keywords": [
     "wcjs",
@@ -16,9 +17,17 @@
     "bindings": "~1.2.1",
     "cmake-js": "^6.0.0",
     "node-addon-api": "^3.0.2",
-    "node-addon-api-helpers": "*"
+    "node-addon-api-helpers": "*",
+    "node-gyp": "^8.1.0",
+    "node-pre-gyp": "^0.17.0"
   },
   "scripts": {
     "install": "node rebuild.js"
+  },
+  "binary": {
+    "module_name": "wcjs-gs",
+    "module_path": "./lib/binding/napi-v6",
+    "remote_path": "./wcjs-gs/bindings/v{version}/{configuration}-napi-v6/",
+    "host": "https://xrdtray.s3.amazonaws.com/"
   }
 }
