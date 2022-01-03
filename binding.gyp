@@ -4,7 +4,7 @@
       "sources": ["src/JsPlayer.cpp", "src/module.cpp"],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
-        "node_modules/node-addon-api-helpers"
+        "<!@(node -p \"process.cwd()\")/node_modules/node-addon-api-helpers"
       ],
       "defines": ["NAPI_CPP_EXCEPTIONS", "NAPI_VERSION=6"],
       'conditions': [

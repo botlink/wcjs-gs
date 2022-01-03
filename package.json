@@ -21,7 +21,8 @@
     "node-gyp": "^8.1.0"
   },
   "scripts": {
-    "install": "node-pre-gyp rebuild"
+    "install": "node-pre-gyp install --fallback-to-build",
+    "rebuild": "node-pre-gyp rebuild"
   },
   "binary": {
     "module_name": "wcjs-gs",
