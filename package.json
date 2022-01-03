@@ -14,11 +14,11 @@
     "url": "https://github.com/RSATom/wcjs-gs"
   },
   "dependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.8",
     "bindings": "~1.2.1",
     "node-addon-api": "^3.0.2",
     "node-addon-api-helpers": "*",
-    "node-gyp": "^8.1.0",
-    "node-pre-gyp": "^0.17.0"
+    "node-gyp": "^8.1.0"
   },
   "scripts": {
     "install": "node-pre-gyp rebuild"
