@@ -1,4 +1,6 @@
 #include "JsPlayer.h"
+#include <iostream>
+#include <fstream>
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -172,6 +174,15 @@ GstBusSyncReply JsPlayer::onBusMessageProxy(GstBus*, GstMessage* message, gpoint
 	switch(type) {
 	case GST_MESSAGE_EOS:
 		dataPtr.reset(new BusMessageData(type));
+		break;
+	case GST_MESSAGE_ERROR:
+		GError *err = NULL;
+		gchar *dbg_info = NULL;
+		gst_message_parse_error(message, &err, &dbg_info);
+		std::ofstream ErrLog;
+		ErrLog.open("gst_error.log", std::ios_base::app);
+		ErrLog << err->message << std::endl << dbg_info << std::endl << std::endl;
+		ErrLog.close();
 		break;
 	}
 
