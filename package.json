@@ -20,7 +20,8 @@
     "node-gyp": "^11.1.0"
   },
   "scripts": {
-    "install": "node-pre-gyp install --fallback-to-build",
+    "install": "node -e \"console.log('Using committed wcjs-gs binary; run npm run build-from-source to rebuild')\"",
+    "build-from-source": "node-pre-gyp install --fallback-to-build",
     "rebuild": "node-pre-gyp rebuild"
   },
   "binary": {
