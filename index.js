@@ -1,1 +1,1 @@
-module.exports = require("bindings")("wcjs-gs");
+module.exports = require("./lib/binding/napi-v6/wcjs-gs.node");
